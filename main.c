@@ -8,20 +8,30 @@ int main() {
     a1[i] = rand_num();
     printf("\nrandom %d: %d", i, a1[i]);
   }
+  
   int fd = open("file.txt", O_RDWR | O_CREAT, 0666);
   if (fd < 0) {
     printf("OPEN errno: %d, error message: %s", errno, strerror(errno));
     return errno;
   }
-  printf("\nWriting numbers to file:");
+  
+  printf("\nWriting numbers to file...");
   int i1 = write(fd, a1, sizeof(a1));
   if (i1 < 0) {
     printf("WRITE errno: %d, error message: %s", errno, strerror(errno));
     return errno;
   }
-  printf("\nReading numbers to file:");
+  close(fd);
+
+  fd = open("file.txt", O_RDWR | O_CREAT, 0666);
+  if (fd < 0) {
+    printf("OPEN errno: %d, error message: %s", errno, strerror(errno));
+    return errno;
+  }
+
+  printf("\nReading numbers to file...");
   int a2[10];
-  int i2 = read(fd, a2, sizeof(a1));
+  int i2 = read(fd, a2, sizeof(a2));
   if (i2 < 0) {
     printf("READ errno: %d, error message: %s", errno, strerror(errno));
     return errno;
